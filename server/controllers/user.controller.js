@@ -2,7 +2,8 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export const register = async (req, res) => {
+// Register function
+const register = async (req, res) => {
     try {
         const newUser = await User.create(req.body);
         // sign a jsonwebtoken to the user
@@ -18,8 +19,10 @@ export const register = async (req, res) => {
     }
 };
 
-export const login = async (req, res) => {
+// login function
+const login = async (req, res) => {
     // check if user exists
+    // console.log("Arguemnt passed in UserController:", req.body);
     const { email, password } = req.body;
     const potentialUser = await User.find({ email: email });
     if (!potentialUser) {
@@ -38,12 +41,16 @@ export const login = async (req, res) => {
         { userId: potentialUser._id, username: potentialUser.username },
         process.env.SECRET_KEY
     );
-    // console.log("User Token: ", userToken);
+    console.log("User Token: ", userToken);
     res.cookie("userToken", userToken);
     res.status(201).json(potentialUser);
 };
 
-export const logout = async (req, res) => {
+// logout function
+const logout = async (req, res) => {
+    // console.log("logging out...: ", res);
     res.clearCookie("userToken");
     return res.status(200).json({ message: "successfully logged out" });
 };
+
+export { register, login, logout };
