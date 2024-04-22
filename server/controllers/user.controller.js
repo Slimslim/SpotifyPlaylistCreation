@@ -41,7 +41,7 @@ const login = async (req, res) => {
         { userId: potentialUser._id, username: potentialUser.username },
         process.env.SECRET_KEY
     );
-    console.log("User Token: ", userToken);
+    // console.log("User Token: ", userToken);
     res.cookie("userToken", userToken);
     res.status(201).json(potentialUser);
 };

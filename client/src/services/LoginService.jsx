@@ -28,6 +28,7 @@ async function register(user) {
 // Logout
 async function logout() {
     console.log("logging out...");
+    localStorage.clear();
     return http
         .post("/logout", {}, { withCredentials: true })
         .then((response) => response.data)

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/LoginService";
+import { userContext } from "../context/userContext";
 // import Nav from "../components/Nav";
 // import DisplayAll from "../components/DisplayAll";
 
 const Register = (props) => {
+    const { user, setUser } = useContext(userContext);
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({});
     const [errors, setErrors] = useState({});
@@ -14,9 +16,9 @@ const Register = (props) => {
 
         register(userInfo)
             .then((res) => {
-                console.log(res);
+                setUser(res);
                 console.log("Registered!!!");
-                // navigate("/SpotifyLogin");
+                navigate("/SpotifyLogin");
             })
             .catch((err) => {
                 console.log(err);

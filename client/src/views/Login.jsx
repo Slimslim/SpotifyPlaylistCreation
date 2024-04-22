@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { login } from "../services/LoginService";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { userContext } from "../context/userContext";
+import { requestAuthorization } from "../services/SpotifyService";
 
 // import Nav from "../components/Nav";
 // import DisplayAll from "../components/DisplayAll";
 
 const Login = (props) => {
+    const { user, setUser } = useContext(userContext);
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({});
     const [errors, setErrors] = useState({});
@@ -16,6 +19,8 @@ const Login = (props) => {
         login(userInfo)
             .then((res) => {
                 console.log(res);
+                setUser(res[0]);
+                //redirect to '/SpotifyLogin' page to request login to spotify
                 navigate("/SpotifyLogin");
             })
             .catch((err) => {
