@@ -10,7 +10,7 @@ const http = axios.create({
 // STEP 1: request a spotify code
 // sends user to spotify to login and redirect to '/home'
 function requestAuthorization() {
-    let url = "https://accounts.spotify.com/authorize?";
+    let url = import.meta.env.VITE_SPOTIFY_AUTH_URL;
 
     url += queryString.stringify({
         response_type: "code",
