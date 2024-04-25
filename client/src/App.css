@@ -1,0 +1,135 @@
+/* CSS reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+/* Playlist columns */
+.div_playlists_container {
+    display: flex;
+    padding: 20px;
+    gap: 40px;
+}
+
+.Spotify_list_div,
+.create_list_div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.recommendation-list,
+.new-list {
+    height: 250px;
+    border-radius: 5%;
+}
+
+.track_div {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.album_cover {
+    height: auto;
+    padding: 3px;
+    align-items: center;
+}
+.cover_image {
+    background-size: cover;
+}
+.track_information {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+    gap: 5px;
+}
+
+.artists_div {
+    display: flex;
+}
+.track_name {
+    font-weight: bold;
+}
+.artists_div,
+.track_name {
+    font-size: 1.2rem;
+}
+
+.extra_data {
+    display: flex;
+    gap: 5px;
+    font-size: 0.7rem;
+}
+
+.track_actions {
+    display: flex;
+    flex-direction: column;
+    max-width: 40px;
+    margin-left: auto;
+}
+
+.audio_player {
+    size: 30px;
+}
+
+/* Spotify Login Page */
+.spotify-login-button {
+    display: inline-block;
+    background-color: #1db954;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.spotify-login-button:hover {
+    background-color: #169c41;
+}
+
+#knob1 {
+    top: 70px;
+    left: 70px;
+}
+
+/* CSS */
+.button-88 {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 0.7em 1.4em 0.7em 1.1em;
+    color: white;
+    background: #ad5389;
+    background: linear-gradient(
+        0deg,
+        rgba(20, 167, 62, 1) 0%,
+        rgba(102, 247, 113, 1) 100%
+    );
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+    letter-spacing: 0.05em;
+    border-radius: 20em;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-88:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+}
+
+.button-88:active {
+    box-shadow: 0 0.3em 1em -0.5em #14a73e98;
+}

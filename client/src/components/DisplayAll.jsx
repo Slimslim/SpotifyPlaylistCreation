@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { userContext } from "../context/userContext";
 import { Link } from "react-router-dom";
 import { getAllPlaylists } from "../services/PlaylistService";
 import { msToHMS } from "../util/Utilities";
 
 const DisplayAll = (props) => {
     const [playlists, setPlaylists] = useState([]);
+    const { user, setUser } = useContext(userContext);
     // const [updated, setUpdated] = useState(false);
+
     useEffect(() => {
         console.log("Searching playlists");
         getAllPlaylists()
@@ -67,7 +70,7 @@ const DisplayAll = (props) => {
                     ))}
                 </tbody>
             </table>
-            <Link className="btn btn-light border border-dark">
+            <Link className="btn btn-light border border-dark" to={"/create"}>
                 Create a Playlist
             </Link>
         </div>

@@ -5,6 +5,8 @@ import SpotifyLogin from "./views/SpotifyLogin";
 import Register from "./views/Register";
 import HomePage from "./views/HomePage";
 import PlaylistDetails from "./views/PlaylistDetails";
+import CreatePlaylist from "./views/CreatePlaylist";
+import MyPlaylists from "./views/MyPlaylists";
 
 function App() {
     return (
@@ -15,6 +17,8 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/playlist/:id" element={<PlaylistDetails />} />
+                <Route path="/create" element={<CreatePlaylist />} />
+                <Route path="/myplaylists" element={<MyPlaylists />} />
             </Routes>
         </>
     );

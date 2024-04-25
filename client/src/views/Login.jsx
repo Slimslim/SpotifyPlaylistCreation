@@ -8,7 +8,7 @@ import { requestAuthorization } from "../services/SpotifyService";
 // import DisplayAll from "../components/DisplayAll";
 
 const Login = (props) => {
-    const { user, setUser } = useContext(userContext);
+    const { user, setUser, storeIdInLocalStorage } = useContext(userContext);
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({});
     const [errors, setErrors] = useState({});
@@ -20,6 +20,7 @@ const Login = (props) => {
             .then((res) => {
                 console.log(res);
                 setUser(res[0]);
+                storeIdInLocalStorage(res[0]._id);
                 //redirect to '/SpotifyLogin' page to request login to spotify
                 navigate("/SpotifyLogin");
             })
@@ -29,7 +30,7 @@ const Login = (props) => {
             });
     };
     return (
-        <div>
+        <div className="w-50 mx-auto mt-5 align-items-center">
             <h1 className="w-50 mx-auto">Login page</h1>
 
             <form

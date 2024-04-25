@@ -37,4 +37,14 @@ async function logout() {
         });
 }
 
-export { login, register, logout };
+// Get logged in user information
+async function getUserById(id) {
+    return http
+        .get(`/get_user_info_by_id/${id}`)
+        .then((response) => response.data)
+        .catch((err) => {
+            throw err.response.data.errors;
+        });
+}
+
+export { login, register, logout, getUserById };

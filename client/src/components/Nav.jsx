@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../context/userContext";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../services/LoginService";
+import { getUserById, logout } from "../services/LoginService";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -10,6 +10,18 @@ const Nav = (props) => {
     const { username } = props;
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const id = window.localStorage.getItem("UUID");
+
+    useEffect(() => {
+        getUserById(id)
+            .then((res) => {
+                setUser(res);
+                console.log(res);
+            })
+            .catch((err) => {
+                setErrors(err);
+            });
+    }, []);
 
     const logoutHandler = () => {
         logout()
@@ -23,20 +35,29 @@ const Nav = (props) => {
             });
     };
     return (
-        <header className="grid border-bottom border-3">
+        <header className="grid border-bottom border-3 bg-info">
             <nav className="nav justify-content-end">
                 <li className="nav-item">
-                    <a
+                    <Link
                         className="nav-link active px-1"
                         aria-current="page"
-                        href="#"
+                        to={"/home"}
                     >
-                        My Playlists
-                    </a>
+                        Home
+                    </Link>
                 </li>
                 <li className="nav-item">
                     <Link
-                        className="nav-link px-1"
+                        className="nav-link active px-1"
+                        aria-current="page"
+                        to={"/myplaylists"}
+                    >
+                        My Playlists
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link
+                        className="nav-link active px-1"
                         to={"/"}
                         onClick={() => logoutHandler()}
                     >

@@ -53,4 +53,14 @@ const logout = async (req, res) => {
     return res.status(200).json({ message: "successfully logged out" });
 };
 
-export { register, login, logout };
+//
+const getLoggedInUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};
+
+export { register, login, logout, getLoggedInUserById };

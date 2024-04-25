@@ -1,13 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { userContext } from "../context/userContext";
 import { Link, useParams } from "react-router-dom";
 import { getPlaylistById } from "../services/PlaylistService";
 import { msToHMS } from "../util/Utilities";
+import { getUserById } from "../services/LoginService";
 
 const DisplayPlaylist = (props) => {
     const { playlistId } = props;
     const [playlist, setPlaylist] = useState([]);
+    const { user, setUser } = useContext(userContext);
+    const id = window.localStorage.getItem("UUID");
 
     console.log("Playlist ID: ", playlistId);
+
+    useEffect(() => {
+        getUserById(id)
+            .then((res) => {
+                console.log(res.username);
+                setUser(res.username);
+            })
+            .catch((err) => {
+                setErrors(err);
+            });
+    }, []);
 
     useEffect(() => {
         console.log("Searching playlist by ID");
@@ -35,7 +50,7 @@ const DisplayPlaylist = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {playlist.trackList.map((track) => (
+                    {playlist.trackList?.map((track) => (
                         <tr key={track._id}>
                             <td>#</td>
                             <td>
