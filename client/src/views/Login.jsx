@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { login } from "../services/LoginService";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { userContext } from "../context/userContext";
-import { requestAuthorization } from "../services/SpotifyService";
 
 // import Nav from "../components/Nav";
 // import DisplayAll from "../components/DisplayAll";

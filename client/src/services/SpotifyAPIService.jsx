@@ -7,11 +7,51 @@ const http = axios.create({
     baseURL: import.meta.env.VITE_SPOTIFY_API_URL,
 });
 
+// Get artist spotify Id
+// returns the id of closest artist being searched
+async function getArtistId(searchInput) {
+    let accessToken = localStorage.getItem("access_token");
+    // console.log("Search field: ", searchInput);
+    let query = encodeURIComponent(searchInput);
+
+    // console.log("track to search for: ", query);
+    const url =
+        `https://api.spotify.com/v1/search?q=` +
+        query +
+        "&type=artist" +
+        "&market=us" +
+        "&limit=10";
+
+    console.log("Search query: ", url);
+
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        console.log(
+            "getArtistId fct Response:",
+            response.data.artists.items[0].id
+        );
+        return response.data.artists.items[0].id;
+    } catch (error) {
+        // Handle error
+        if (error.response.status == 401) {
+            console.log("Token has expired---get a new one");
+        } else {
+            console.error("Error:", error);
+        }
+        throw error; // Rethrow the error to be caught by the caller
+    }
+}
+
 // Get track list suggestion from a search query
 // Returns an object with the list of the tracks with added audio features
-async function getTracks(searchInput) {
+async function getTracks(searchInput, searchType) {
     let accessToken = localStorage.getItem("access_token");
-    console.log("Input params: ", searchInput);
+    console.log("Search field: ", searchInput);
+    console.log("Search type: ", searchType);
     let query = encodeURIComponent(searchInput);
     let searchResult = {};
     let trackIdList = "";
@@ -21,9 +61,12 @@ async function getTracks(searchInput) {
     const url =
         `https://api.spotify.com/v1/search?q=` +
         query +
-        "&type=track" +
+        "&type=" +
+        searchType +
         "&market=us" +
         "&limit=10";
+
+    console.log("Search query: ", url);
 
     try {
         const response = await axios.get(url, {
@@ -102,4 +145,6 @@ async function getTracksAudioFeatures(trackListString) {
     }
 }
 
-export { getTracks };
+// get track list from IDs
+
+export { getTracks, getArtistId };

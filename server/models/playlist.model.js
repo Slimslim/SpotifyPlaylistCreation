@@ -3,9 +3,17 @@ import { model, Schema } from "mongoose";
 const trackSchema = new Schema(
     {
         name: { type: String, required: [true, "track Name is required"] },
-        artist: { type: String, required: [true, "Track Artist is required"] },
-        album: { type: String, required: [true, "track Album is required"] },
-        bpm: { type: Number, required: [true, "track bpm is required"] },
+        artist: { type: String, required: [true, "track Artist is required"] },
+        tempo: { type: Number, required: [true, "track tempo is required"] },
+        danceability: {
+            type: Number,
+            required: [true, "track danceability is required"],
+        },
+        energy: { type: Number, required: [true, "track energy is required"] },
+        instrumentalness: {
+            type: Number,
+            required: [true, "track instrumentalness is required"],
+        },
         duration: {
             type: Number,
             required: [true, "track duration is required"],
@@ -13,6 +21,14 @@ const trackSchema = new Schema(
         trackSpotifyId: {
             type: String,
             required: [true, "SpotifyId is required"],
+        },
+        preview_url: {
+            type: String,
+            required: [true, "preview_url is required"],
+        },
+        cover: {
+            type: String,
+            required: [true, "cover is required"],
         },
     },
     { timestamps: true }

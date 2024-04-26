@@ -9,6 +9,72 @@ p {
     margin: 0;
 }
 
+/* BORDER STLYE */
+.logo_box,
+.advanced_filters {
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.search_panel {
+    height: 400px;
+    border-radius: 20px;
+}
+.search_spacer_for_logo {
+    padding: 30px 60px 0px 60px;
+    height: 100px;
+}
+.logo_box {
+    height: 100%;
+}
+
+.search_container {
+    display: flex;
+    padding: 30px 60px 60px 60px;
+}
+.search_labels {
+    color: whitesmoke;
+}
+.knob_filters {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.knob_filters > .search_labels {
+    font-size: 0.5rem;
+}
+
+.search_type_selection {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.radio_button {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search_field_and_advanced {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search_action {
+    flex: 1;
+}
+
+.advanced_filters {
+    display: flex;
+    padding: 15px;
+    gap: 20px;
+}
+
 /* Playlist columns */
 .div_playlists_container {
     display: flex;
@@ -78,6 +144,13 @@ p {
     size: 30px;
 }
 
+.add_button {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    align-items: baseline;
+}
+
 /* Spotify Login Page */
 .spotify-login-button {
     display: inline-block;
@@ -94,11 +167,6 @@ p {
 }
 .spotify-login-button:hover {
     background-color: #169c41;
-}
-
-#knob1 {
-    top: 70px;
-    left: 70px;
 }
 
 /* CSS */

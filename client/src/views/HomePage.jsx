@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import DisplayAll from "../components/DisplayAll";
 import { getUserById } from "../services/LoginService";
 import { Buffer } from "buffer";
-import { exchangeCodeForAccessToken } from "../services/SpotifyService";
+import { exchangeCodeForAccessToken } from "../services/SpotifyAuthService";
 
 const HomePage = (props) => {
     const [spotifyToken, setSpotifyToken] = useState("");

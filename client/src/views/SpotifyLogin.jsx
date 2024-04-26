@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import { logout } from "../services/LoginService";
 import { userContext } from "../context/userContext";
-import { requestAuthorization } from "../services/SpotifyService";
+import { requestAuthorization } from "../services/SpotifyAuthService";
 
 // import Nav from "../components/Nav";
 // import DisplayAll from "../components/DisplayAll";
