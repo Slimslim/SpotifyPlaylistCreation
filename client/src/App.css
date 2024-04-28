@@ -18,6 +18,63 @@ p {
     font-variation-settings: "BNCE" 35, "INFM" 48, "SPAC" 0;
 }
 
+/* nav bar */
+.nav-bar_header {
+    background-color: rgb(20, 28, 37);
+    color: whitesmoke;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu_item {
+    display: flex;
+    font-weight: 100;
+    font-size: small;
+    border-right: solid white 1px;
+    height: fit-content;
+    padding: 2px;
+    gap: 5px;
+}
+.navigation_bar {
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* login page */
+.user_login_page {
+    display: flex;
+    background-image: url(../src/assets/images/TPTL_Home_page.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.user_login_container {
+    border-radius: 20px;
+    margin: auto;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.5);
+    flex-direction: column;
+    width: fit-content;
+    padding: 20px;
+    height: 200px;
+    gap: 10px;
+}
+
+.login_labels {
+    font-weight: bold;
+    align-self: center;
+}
+
+.email_container,
+.password_container {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
 /* BORDER STLYE */
 .logo_box,
 .advanced_filters,
@@ -100,10 +157,38 @@ form {
 
 /* Playlist creation */
 .playlist_info_container {
+    display: flex;
     height: 125px;
     width: 100%;
     background-image: url("./assets/images/Blank-Yellow-Rack.png");
     background-size: cover;
+    justify-content: space-between;
+}
+
+.playlist_title_container {
+    margin: 10px 30px;
+}
+.playlist_info_data {
+    display: flex;
+    padding: 10px;
+    flex-direction: column-reverse;
+}
+.track_counter {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    gap: 5px;
+}
+.track_count_display {
+    background-color: black;
+    color: red;
+    height: 30px;
+    width: 40px;
+    text-align: center;
+    padding: 0px;
+}
+.track_count_number {
+    padding: 0px;
 }
 
 .title_tape {
@@ -242,6 +327,37 @@ form {
 }
 
 /* Spotify Login Page */
+.spotify_login_page_background {
+    background-image: url(../src/assets/images/Spotify_login_page.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login_container {
+    margin: 33vw 38vw 0px 36vw;
+    border-radius: 5px;
+    border: white solid 1px;
+    background-color: black;
+
+    height: 150px;
+}
+
+.login_button {
+    padding-top: 15px;
+}
+
+.login_text {
+    padding-top: 15px;
+}
+.login_username {
+    font-size: x-large;
+    padding-top: 10px;
+    text-align: center;
+    color: white;
+}
+
 .spotify-login-button {
     display: inline-block;
     background-color: #1db954;
@@ -261,6 +377,7 @@ form {
 
 /* CSS */
 .button-88 {
+    margin: auto;
     display: flex;
     align-items: center;
     font-family: inherit;

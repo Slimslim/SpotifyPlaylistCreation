@@ -29,47 +29,40 @@ const Login = (props) => {
             });
     };
     return (
-        <div className="w-50 mx-auto mt-5 align-items-center">
-            <h1 className="w-50 mx-auto">Login page</h1>
-
-            <form
-                onSubmit={submnitHandler}
-                className="w-50 mx-auto p-3 border border-2 border-dark"
-            >
-                <div className="form-group mb-2">
-                    <div className="d-flex gap-3">
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            onChange={(e) =>
-                                setUserInfo({
-                                    ...userInfo,
-                                    email: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
+        <div className="user_login_page">
+            <form onSubmit={submnitHandler} className="user_login_container">
+                <div className="email_container">
+                    <label className="login_labels">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        onChange={(e) =>
+                            setUserInfo({
+                                ...userInfo,
+                                email: e.target.value,
+                            })
+                        }
+                    />
                 </div>
-                <div className="form-group mb-2">
-                    <div className="d-flex gap-3">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            onChange={(e) =>
-                                setUserInfo({
-                                    ...userInfo,
-                                    password: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
+
+                <div className="password_container">
+                    <label className="login_labels">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        onChange={(e) =>
+                            setUserInfo({
+                                ...userInfo,
+                                password: e.target.value,
+                            })
+                        }
+                    />
                 </div>
                 <button className="btn btn-light border border-dark">
                     Login
                 </button>
-                <p>
+                <p></p>
+                <p className="login_labels">
                     Don't have an account yet ?
                     <Link to={"/register"}>Sing up here</Link>
                 </p>

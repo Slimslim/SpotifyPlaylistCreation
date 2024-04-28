@@ -35,9 +35,10 @@ const Nav = (props) => {
             });
     };
     return (
-        <header className="grid border-bottom border-3 bg-info">
-            <nav className="nav justify-content-end">
-                <li className="nav-item">
+        <header className="nav-bar_header">
+            <h1>The Music Playlist Database</h1>
+            <nav className="navigation_bar">
+                <li className="menu_item">
                     <Link
                         className="nav-link active px-1"
                         aria-current="page"
@@ -46,7 +47,7 @@ const Nav = (props) => {
                         Home
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="menu_item">
                     <Link
                         className="nav-link active px-1"
                         aria-current="page"
@@ -55,7 +56,7 @@ const Nav = (props) => {
                         My Playlists
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="menu_item">
                     <Link
                         className="nav-link active px-1"
                         to={"/"}
@@ -64,7 +65,7 @@ const Nav = (props) => {
                         <u>logout</u>
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="menu_item">
                     <a
                         className="nav-link  px-1 disabled"
                         href="#"
@@ -72,16 +73,9 @@ const Nav = (props) => {
                     >
                         Logged as {user.username}
                     </a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link disabled" aria-disabled="true">
-                        <i className="bi bi-person-circle"></i>
-                    </a>
+                    <i className="bi bi-person-circle"></i>
                 </li>
             </nav>
-            <div className="text-center">
-                <h1>The Music Playlist Database</h1>
-            </div>
         </header>
     );
 };

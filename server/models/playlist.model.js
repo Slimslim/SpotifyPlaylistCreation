@@ -24,7 +24,7 @@ const trackSchema = new Schema(
         },
         preview_url: {
             type: String,
-            required: [true, "preview_url is required"],
+            required: [false, "preview_url is required"],
         },
         cover: {
             type: String,

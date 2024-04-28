@@ -15,29 +15,28 @@ const SpotifyLogin = (props) => {
     const [spotifycode, setSpotifyCode] = useState("");
 
     return (
-        <div>
+        <div className="spotify_login_page_background">
             <Nav />
-            <div className="d-flex justify-content-center">
-                <div className="d-flex-column text-center">
-                    <h1>Hello {user.username}</h1>
-                    <p>Please, log into your Spotify account</p>
+            <div className="login_container">
+                <div className="login_text">
+                    <h1 className="login_username">{user.username}</h1>
                 </div>
-            </div>
-            <div>
-                <button
-                    className="button-88"
-                    onClick={() => {
-                        requestAuthorization();
-                    }}
-                >
-                    {/* On click request auth */}
-                    <img
-                        className="SpotifyIcon"
-                        src="./assets/SpotifyLogo/Spotify_Icon_RGB_Black.png"
-                        alt=""
-                    />
-                    <p>connect to Spotify</p>
-                </button>
+                <div className="login_button">
+                    <button
+                        className="button-88"
+                        onClick={() => {
+                            requestAuthorization();
+                        }}
+                    >
+                        {/* On click request auth */}
+                        <img
+                            className="SpotifyIcon"
+                            src="./assets/SpotifyLogo/Spotify_Icon_RGB_Black.png"
+                            alt=""
+                        />
+                        <p>connect to Spotify</p>
+                    </button>
+                </div>
             </div>
         </div>
     );
