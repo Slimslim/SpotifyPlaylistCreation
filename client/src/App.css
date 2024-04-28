@@ -9,11 +9,24 @@ p {
     margin: 0;
 }
 
+/* FONTS */
+.shantell-sans-handfont {
+    font-family: "Shantell Sans", cursive;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "BNCE" 35, "INFM" 48, "SPAC" 0;
+}
+
 /* BORDER STLYE */
 .logo_box,
-.advanced_filters {
+.advanced_filters,
+.playlist_title_container {
     border: 1px solid grey;
     border-radius: 5px;
+}
+form {
+    padding: 0px 20px;
 }
 
 .search_panel {
@@ -25,7 +38,12 @@ p {
     height: 100px;
 }
 .logo_box {
+    padding: auto;
+    text-align: center;
     height: 100%;
+    color: antiquewhite;
+    font-weight: bolder;
+    font-size: x-large;
 }
 
 .search_container {
@@ -41,7 +59,12 @@ p {
     gap: 5px;
     align-items: center;
 }
-.knob_filters > .search_labels {
+
+.slider_filters {
+    width: 200px;
+}
+.knob_filters > .search_labels,
+.slider_filters > .search_labels {
     font-size: 0.5rem;
 }
 
@@ -72,14 +95,42 @@ p {
 .advanced_filters {
     display: flex;
     padding: 15px;
-    gap: 20px;
+    justify-content: space-around;
+}
+
+/* Playlist creation */
+.playlist_info_container {
+    height: 125px;
+    width: 100%;
+    background-image: url("./assets/images/Blank-Yellow-Rack.png");
+    background-size: cover;
+}
+
+.title_tape {
+    background-image: url("./assets/images/masking_tape.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 90px;
+    width: 300px;
+    margin: 0px 20px;
+}
+.playlist_title_label {
+    padding-left: 30px;
+    padding-top: 10px;
+}
+.title_field {
+    font-size: x-large;
+    margin-top: 10px;
+    margin-left: 30px;
+    rotate: -3deg;
+    background: transparent;
+    border: none;
 }
 
 /* Playlist columns */
 .div_playlists_container {
     display: flex;
-    padding: 20px;
-    gap: 40px;
+    padding: 0px 20px 20px 20px;
 }
 
 .Spotify_list_div,
@@ -98,45 +149,79 @@ p {
 .track_div {
     display: flex;
     align-items: center;
+    border-radius: 5px;
+    background-color: grey;
     border: 1px solid black;
+    height: 125px;
+}
+
+.track_data {
+    display: flex;
+    height: 100%;
+    padding: 15px 0px 15px 15px;
+    gap: 10px;
+    align-items: center;
 }
 
 .album_cover {
     height: auto;
-    padding: 3px;
     align-items: center;
 }
 .cover_image {
+    width: 90px;
     background-size: cover;
 }
 .track_information {
     display: flex;
     flex-direction: column;
+    width: 225px;
     padding-left: 5px;
     gap: 5px;
 }
 
 .artists_div {
+    font-size: 0.7rem;
     display: flex;
 }
 .track_name {
     font-weight: bold;
-}
-.artists_div,
-.track_name {
     font-size: 1.2rem;
 }
 
 .extra_data {
     display: flex;
-    gap: 5px;
+    padding-right: 15px;
+    gap: 15px;
     font-size: 0.7rem;
+}
+
+.track_features_right_values,
+.track_features_left_values {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+.audio_feature {
+    text-align: center;
+    align-items: center;
+}
+
+.tempo_data {
+    display: flex;
+    flex-direction: column;
+}
+
+.action_labels {
+    font-size: x-small;
+    font-weight: bold;
 }
 
 .track_actions {
     display: flex;
     flex-direction: column;
-    max-width: 40px;
+    padding-right: 5px;
+    padding-left: 5px;
+    align-items: center;
     margin-left: auto;
 }
 
@@ -149,6 +234,11 @@ p {
     width: 20px;
     height: 20px;
     align-items: baseline;
+}
+
+.action_button_handler {
+    background: transparent;
+    border: none;
 }
 
 /* Spotify Login Page */

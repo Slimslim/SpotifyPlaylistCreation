@@ -3,11 +3,19 @@ import { userContext } from "../context/userContext";
 import { Link, useParams } from "react-router-dom";
 import { createPlaylist, getPlaylistById } from "../services/PlaylistService";
 import Nav from "../components/Nav";
-import { getTracks, getArtistId } from "../services/SpotifyAPIService";
+import {
+    getTracks,
+    getArtistTopTracks,
+    getAlbumTracks,
+    getRecommendation,
+} from "../services/SpotifyAPIService";
 import searchBackgroundPanel from "../assets/images/BlackBackgroundPanel.jpg";
 import littlePhatty from "../assets/webAudioSwitch/LittlePhatty.png";
 import redButton from "../assets/webAudioSwitch/redbutton128.png";
+import greenButton from "../assets/webAudioSwitch/green_button.png";
 
+import MultiRangeSlider from "multi-range-slider-react";
+import { Display } from "react-7-segment-display";
 import {
     WebAudioSwitch,
     WebAudioKnob,
@@ -19,7 +27,14 @@ const CreatePlaylist = (props) => {
     const [errors, setErrors] = useState({});
     const [spotifyTrackList, setSpotifyTrackList] = useState([]);
     const [trackSearch, setTrackSearch] = useState("");
-    const [searchType, setSearchType] = useState("");
+    const [searchType, setSearchType] = useState("artist");
+    const [dance, setDance] = useState(0.5);
+    const [energy, setEnergy] = useState(0.5);
+    const [instru, setInstru] = useState(0.5);
+    const [tempo, setTempo] = useState(150);
+
+    // const [recommendationData, setRecommendationData] = useState({});
+
     // List of the tracks to be displayed ==> Date pulled from track ids
     const [newPlaylist, setNewPlaylist] = useState({
         name: "",
@@ -35,22 +50,50 @@ const CreatePlaylist = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        getArtistId(searchType);
-
-        // if (searchType != "recomendation") {
-        //     // Query Spotify API to get track from search value
-        //     getTracks(trackSearch, searchType)
-        //         .then((res) => {
-        //             // console.log("response: ", res.tracks.items);
-        //             setSpotifyTrackList(res.tracks.items);
-        //         })
-        //         .catch((err) => {
-        //             console.log(err);
-        //             setErrors(err);
-        //         });
-        // } else {
-        //     console.log("Recommendation function does not exist yet");
-        // }
+        if (searchType === "track") {
+            // Query Spotify API to get track from search value
+            getTracks(trackSearch, searchType)
+                .then((res) => {
+                    // console.log("response: ", res.tracks.items);
+                    setSpotifyTrackList(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrors(err);
+                });
+        } else if (searchType === "artist") {
+            getArtistTopTracks(trackSearch)
+                .then((res) => {
+                    // console.log("response: ", res.tracks.items);
+                    setSpotifyTrackList(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrors(err);
+                });
+        } else if (searchType === "album") {
+            getAlbumTracks(trackSearch)
+                .then((res) => {
+                    // console.log("response: ", res.tracks.items);
+                    setSpotifyTrackList(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrors(err);
+                });
+        } else if (searchType === "recommendation") {
+            getRecommendation(trackSearch, dance, energy, instru, tempo)
+                .then((res) => {
+                    // console.log("response: ", res.tracks.items);
+                    setSpotifyTrackList(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrors(err);
+                });
+        } else {
+            console.log("Recommendation function does not exist yet");
+        }
     };
 
     const addToPlaylistHandler = (track) => {
@@ -74,13 +117,14 @@ const CreatePlaylist = (props) => {
                 duration: track.duration_ms,
                 trackSpotifyId: track.id,
                 preview_url: track.preview_url,
-                cover: track.album.images[2].url,
+                cover: track.album.images[1].url,
             },
         ]);
         console.log("Track to add to playlist", track);
     };
 
     const removeFromPlaylistHandler = (trackSpotifyId) => {
+        console.log("Track Id to remove: ", trackSpotifyId);
         let updatedList = newTracklist.filter(
             (track) => track.trackSpotifyId != trackSpotifyId
         );
@@ -100,6 +144,20 @@ const CreatePlaylist = (props) => {
             });
     };
 
+    const seedHandler = (trackSpotifyId) => {
+        console.log("Seeding track with id: ", trackSpotifyId);
+        newTracklist.map((track) => {
+            if (track.trackSpotifyId === trackSpotifyId) {
+                setDance(track.danceability);
+                setEnergy(track.energy);
+                setInstru(track.instrumentalness);
+                setTempo(track.tempo);
+                setTrackSearch(track.artist.split(",")[0]);
+                setSearchType("recommendation");
+            }
+        });
+    };
+
     useEffect(() => {
         let playTime = 0;
         for (let i = 0; i < newTracklist.length; i++) {
@@ -114,7 +172,6 @@ const CreatePlaylist = (props) => {
     return (
         <div>
             <Nav />
-            <h2 className="text-center mt-5">Create you own Playlist</h2>
             <form onSubmit={submitHandler}>
                 <div
                     className="search_panel"
@@ -125,7 +182,7 @@ const CreatePlaylist = (props) => {
                     }}
                 >
                     <div className="search_spacer_for_logo">
-                        <div className="logo_box">LOGO BOX</div>
+                        <div className="logo_box">CREATE YOUR OWN PLAYLIST</div>
                     </div>
                     <div className="search_container">
                         <div className="search_type_selection">
@@ -140,6 +197,7 @@ const CreatePlaylist = (props) => {
                                     id="artist"
                                     type="radio"
                                     group="typeSearch"
+                                    value={searchType == "artist" ? 1 : 0}
                                 ></WebAudioSwitch>
                                 <label className="search_labels">Artist</label>
                             </div>
@@ -154,6 +212,7 @@ const CreatePlaylist = (props) => {
                                     id="track"
                                     type="radio"
                                     group="typeSearch"
+                                    value={searchType == "track" ? 1 : 0}
                                 ></WebAudioSwitch>
                                 <label className="search_labels">Track</label>
                             </div>
@@ -168,6 +227,7 @@ const CreatePlaylist = (props) => {
                                     id="album"
                                     type="radio"
                                     group="typeSearch"
+                                    value={searchType == "album" ? 1 : 0}
                                 ></WebAudioSwitch>
                                 <label className="search_labels">Album</label>
                             </div>
@@ -179,9 +239,12 @@ const CreatePlaylist = (props) => {
                                     src={redButton}
                                     width={30}
                                     height={30}
-                                    id="recomendation"
+                                    id="recommendation"
                                     type="radio"
                                     group="typeSearch"
+                                    value={
+                                        searchType == "recommendation" ? 1 : 0
+                                    }
                                 ></WebAudioSwitch>
                                 <label className="search_labels">
                                     Recommendations
@@ -197,6 +260,7 @@ const CreatePlaylist = (props) => {
                                     }
                                     type="text"
                                     name="songname"
+                                    value={trackSearch}
                                 />
                             </div>
                             <div className="advanced_filters">
@@ -220,14 +284,16 @@ const CreatePlaylist = (props) => {
                                         midicc={null}
                                         midilearn={0}
                                         min={0}
-                                        onKnobEvent={function noRefCheck() {}}
+                                        onKnobEvent={(e) =>
+                                            setDance(e.target.value / 10)
+                                        }
                                         onKnobInput={function noRefCheck() {}}
                                         outline={0}
                                         sensitivity={1}
                                         sprites={null}
                                         step={1}
                                         tooltip="tooltip text"
-                                        value={0}
+                                        value={dance * 10}
                                         valuetip={1}
                                         width={null}
                                     />
@@ -253,14 +319,16 @@ const CreatePlaylist = (props) => {
                                         midicc={null}
                                         midilearn={0}
                                         min={0}
-                                        onKnobEvent={function noRefCheck() {}}
+                                        onKnobEvent={(e) =>
+                                            setEnergy(e.target.value / 10)
+                                        }
                                         onKnobInput={function noRefCheck() {}}
                                         outline={0}
                                         sensitivity={1}
                                         sprites={null}
                                         step={1}
                                         tooltip="tooltip text"
-                                        value={0}
+                                        value={energy * 10}
                                         valuetip={1}
                                         width={null}
                                     />
@@ -286,20 +354,56 @@ const CreatePlaylist = (props) => {
                                         midicc={null}
                                         midilearn={0}
                                         min={0}
-                                        onKnobEvent={function noRefCheck() {}}
+                                        onKnobEvent={(e) =>
+                                            setInstru(e.target.value / 10)
+                                        }
                                         onKnobInput={function noRefCheck() {}}
                                         outline={0}
                                         sensitivity={1}
                                         sprites={null}
                                         step={1}
                                         tooltip="tooltip text"
-                                        value={0}
+                                        value={instru * 10}
                                         valuetip={1}
                                         width={null}
                                     />
                                     <WebAudioParam link="instru" />
                                 </div>
-                                <div></div>
+                                <div className="knob_filters">
+                                    <label className="search_labels">
+                                        Tempo
+                                    </label>
+                                    <WebAudioKnob
+                                        id="tempo"
+                                        src={littlePhatty}
+                                        bodyColor="#000"
+                                        conv={null}
+                                        defvalue={0}
+                                        diameter={50}
+                                        enable={5}
+                                        height={null}
+                                        highlightColor="#fff"
+                                        indicatorColor="#e00"
+                                        log={0}
+                                        max={200}
+                                        midicc={null}
+                                        midilearn={0}
+                                        min={0}
+                                        onKnobEvent={(e) =>
+                                            setTempo(e.target.value)
+                                        }
+                                        onKnobInput={function noRefCheck() {}}
+                                        outline={0}
+                                        sensitivity={1}
+                                        sprites={null}
+                                        step={1}
+                                        tooltip="tooltip text"
+                                        value={tempo}
+                                        valuetip={1}
+                                        width={null}
+                                    />
+                                    <WebAudioParam link="tempo" />
+                                </div>
                             </div>
                         </div>
                         <div className="search_action">
@@ -320,7 +424,7 @@ const CreatePlaylist = (props) => {
                                 {/* {console.log(track.album.images[0].url)} */}
                                 <img
                                     className="cover_image"
-                                    src={track.album.images[2].url}
+                                    src={track.album.images[1].url}
                                     alt=""
                                 />
                             </div>
@@ -364,47 +468,131 @@ const CreatePlaylist = (props) => {
                     ))}
                 </div>
                 <div className="create_list_div">
-                    <input
-                        onChange={(e) =>
-                            setNewPlaylist({
-                                ...newPlaylist,
-                                name: e.target.value,
-                            })
-                        }
-                        type="text"
-                    />
-                    {newTracklist.map((track) => (
-                        <div key={track.trackSpotifyId} className="track_div">
-                            <div className="album_cover">
-                                {/* {console.log(track.album.images[0].url)} */}
-                                <img
-                                    className="cover_image"
-                                    src={track.cover}
-                                    alt=""
+                    <div className="playlist_info_container">
+                        <div className="playlist_title_container">
+                            <p className="playlist_title_label">
+                                Playlist title
+                            </p>
+                            <div className="title_tape">
+                                <input
+                                    className="title_field shantell-sans-handfont"
+                                    onChange={(e) =>
+                                        setNewPlaylist({
+                                            ...newPlaylist,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    type="text"
                                 />
                             </div>
-                            <div className="track_information">
-                                <p className="track_name">{track.name}</p>
-                                <p className="artists_div">{track.artist}</p>
-                                <div className="extra_data">
-                                    <p>BPM : {track.tempo}</p>
-                                    <p>Danceability: {track.danceability}</p>
-                                    <p>Energy: {track.energy}</p>
-                                    <p>
-                                        instrumentalness:{" "}
-                                        {track.instrumentalness}
+                        </div>
+                        <div>
+                            <Display height={20} value={18} />
+                        </div>
+                    </div>
+                    {newTracklist.map((track) => (
+                        <div key={track.trackSpotifyId} className="track_div">
+                            <div className="track_data">
+                                <div className="album_cover">
+                                    {/* {console.log(track.album.images[0].url)} */}
+                                    <img
+                                        className="cover_image"
+                                        src={track.cover}
+                                        alt=""
+                                    />
+                                </div>
+                                <div className="track_information">
+                                    <p className="track_name">{track.name}</p>
+                                    <p className="artists_div">
+                                        {track.artist}
                                     </p>
+                                </div>
+                                <div className="extra_data">
+                                    <div className="track_features_left_values">
+                                        <div className="audio_feature">
+                                            <p className="action_labels">
+                                                INSTRU.
+                                            </p>
+                                            <WebAudioParam
+                                                value={Math.round(
+                                                    track.instrumentalness * 10
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="audio_feature">
+                                            <p className="action_labels">
+                                                DANCE.
+                                            </p>
+                                            <WebAudioParam
+                                                value={Math.round(
+                                                    track.danceability * 10
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="track_features_right_values">
+                                        <div className="audio_feature">
+                                            <p className="action_labels">
+                                                ENERGY
+                                            </p>
+                                            <WebAudioParam
+                                                outline={"white"}
+                                                value={Math.round(
+                                                    track.energy * 10
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="audio_feature">
+                                            <p className="action_labels">
+                                                Tempo
+                                            </p>
+                                            <WebAudioParam
+                                                value={Math.round(track.tempo)}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="track_actions">
                                 {/* {track.preview_url ? (
-                                        <audio
-                                            className="audio_player"
-                                            controls
-                                            src={track.preview_url}
-                                        ></audio>
-                                    ) : null} */}
-                                <button
+                                            <audio
+                                                className="audio_player"
+                                                controls
+                                                src={track.preview_url}
+                                            ></audio>
+                                        ) : null} */}
+                                <label className="action_labels">REMOVE</label>
+
+                                <WebAudioSwitch
+                                    width={50}
+                                    height={20}
+                                    src={greenButton}
+                                    type="kick"
+                                    onSwitchClick={() =>
+                                        removeFromPlaylistHandler(
+                                            track.trackSpotifyId
+                                        )
+                                    }
+                                />
+
+                                <label className="action_labels">PREVIEW</label>
+                                <WebAudioSwitch
+                                    width={50}
+                                    height={20}
+                                    src={greenButton}
+                                    type="kick"
+                                />
+                                <label className="action_labels">SEED</label>
+                                <WebAudioSwitch
+                                    width={50}
+                                    height={20}
+                                    src={greenButton}
+                                    type="kick"
+                                    onSwitchClick={() =>
+                                        seedHandler(track.trackSpotifyId)
+                                    }
+                                />
+                                {/* <button
                                     onClick={() =>
                                         removeFromPlaylistHandler(
                                             track.trackSpotifyId
@@ -412,10 +600,10 @@ const CreatePlaylist = (props) => {
                                     }
                                     className=" add_button bi bi-dash"
                                     type="button"
-                                ></button>
+                                ></button> */}
                             </div>
                             {/* // track.id // track.album.images[1] //
-                                    track.name // track.artists[] // */}
+                                        track.name // track.artists[] // */}
                         </div>
                     ))}
                     <button onClick={() => createPlaylistHandler()}>

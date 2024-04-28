@@ -67,4 +67,35 @@ function exchangeCodeForAccessToken(code, state) {
         .catch((err) => console.log(err.message));
 }
 
-export { requestAuthorization, exchangeCodeForAccessToken };
+function refreshToken() {
+    console.log("Trying to refresh TOKEN");
+    // refresh token that has been previously stored
+    const refreshToken = localStorage.getItem("refresh_token");
+
+    axios
+        .post(
+            import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN,
+            new URLSearchParams({
+                grant_type: "refresh_token",
+                refresh_token: refreshToken,
+            }),
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            }
+        )
+
+        .then((res) => {
+            console.log("Refresh data response: ", res.data);
+            // These are all the information we get back. Just keeping token and refresh token
+            // const { access_token, refresh_token, scope, token_type, expires_in}
+            const { access_token, refresh_token } = res.data;
+            localStorage.setItem("access_token", access_token);
+            localStorage.setItem("refresh_token", refresh_token);
+            console.log("TOKEN HAS BEEN REFRESHED");
+        })
+        .catch((err) => console.log(err.message));
+}
+
+export { requestAuthorization, exchangeCodeForAccessToken, refreshToken };
