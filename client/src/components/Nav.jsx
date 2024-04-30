@@ -7,21 +7,21 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Nav = (props) => {
     const { user, setUser } = useContext(userContext);
-    const { username } = props;
+    const { loggedUser } = props;
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const id = window.localStorage.getItem("UUID");
 
-    useEffect(() => {
-        getUserById(id)
-            .then((res) => {
-                setUser(res);
-                console.log(res);
-            })
-            .catch((err) => {
-                setErrors(err);
-            });
-    }, []);
+    // useEffect(() => {
+    //     getUserById(id)
+    //         .then((res) => {
+    //             setUser(res);
+    //             console.log(res);
+    //         })
+    //         .catch((err) => {
+    //             setErrors(err);
+    //         });
+    // }, []);
 
     const logoutHandler = () => {
         logout()
@@ -36,7 +36,7 @@ const Nav = (props) => {
     };
     return (
         <header className="nav-bar_header">
-            <h1>The Music Playlist Database</h1>
+            <h1>The Playlist Track Lab</h1>
             <nav className="navigation_bar">
                 <li className="menu_item">
                     <Link
@@ -71,7 +71,7 @@ const Nav = (props) => {
                         href="#"
                         aria-disabled="true"
                     >
-                        Logged as {user.username}
+                        Logged as {loggedUser}
                     </a>
                     <i className="bi bi-person-circle"></i>
                 </li>

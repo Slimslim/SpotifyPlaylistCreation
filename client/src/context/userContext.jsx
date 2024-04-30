@@ -4,6 +4,7 @@ export const userContext = createContext();
 
 export const UserProvider = (props) => {
     const [user, setUser] = useState({});
+
     const storeIdInLocalStorage = (id) => {
         window.localStorage.setItem("UUID", id);
     };

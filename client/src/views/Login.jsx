@@ -17,7 +17,7 @@ const Login = (props) => {
 
         login(userInfo)
             .then((res) => {
-                console.log(res);
+                console.log("Login user data: ", res[0]);
                 setUser(res[0]);
                 storeIdInLocalStorage(res[0]._id);
                 //redirect to '/SpotifyLogin' page to request login to spotify

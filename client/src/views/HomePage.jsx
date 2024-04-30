@@ -20,18 +20,15 @@ const HomePage = (props) => {
     useEffect(() => {
         getUserById(id)
             .then((res) => {
-                console.log(res.username);
-                setUser(res.username);
+                console.log(res);
+                setUser(res);
             })
             .catch((err) => {
                 setErrors(err);
             });
-    }, []);
 
-    // Get Spotify Access token and store it in local memory
-    useEffect(() => {
-        // console.log("CODE: ", code);
-        // console.log("Access Token: ", access_token);
+        console.log("is user existing? ", user === 0);
+        // Get Spotify Access token and store it in local memory
         exchangeCodeForAccessToken(code, state);
     }, [code]);
 
@@ -41,7 +38,7 @@ const HomePage = (props) => {
 
     return (
         <div>
-            <Nav />
+            <Nav loggedUser={user.username} />
             <h2 className="text-center mt-5">The Most Liked Playlists</h2>
             <DisplayAll />
             <button onClick={searchHandler}></button>

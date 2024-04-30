@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as userConroller from "../controllers/user.controller.js";
+import authenticate from "jsonwebtoken";
 
 const router = Router();
 

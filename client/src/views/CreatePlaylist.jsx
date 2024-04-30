@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../context/userContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createPlaylist, getPlaylistById } from "../services/PlaylistService";
+import { getUserById } from "../services/LoginService";
 import Nav from "../components/Nav";
+
 import {
     getTracks,
     getArtistTopTracks,
@@ -21,6 +23,8 @@ import {
 } from "webaudio-controls-react-typescript";
 
 const CreatePlaylist = (props) => {
+    const navigate = useNavigate();
+
     const { user, setUser } = useContext(userContext);
     const [errors, setErrors] = useState({});
     const [spotifyTrackList, setSpotifyTrackList] = useState([]);
@@ -43,6 +47,23 @@ const CreatePlaylist = (props) => {
         trackList: [],
     });
     const [newTracklist, setNewTracklist] = useState([]);
+
+    const id = window.localStorage.getItem("UUID");
+
+    useEffect(() => {
+        console.log("user information is: ", user);
+        getUserById(id)
+            .then((res) => {
+                setUser(res);
+                console.log(res);
+                setNewPlaylist({ ...newPlaylist, createdBy: res.username });
+            })
+            .catch((err) => {
+                setErrors(err);
+            });
+
+        // setNewPlaylist({ ...newPlaylist, createdBy: user.username });
+    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -109,8 +130,8 @@ const CreatePlaylist = (props) => {
                     : (artistString += ", " + track.artists[i].name);
             }
 
-            setNewTracklist([
-                ...newTracklist,
+            const arr = [
+                ...newPlaylist.trackList,
                 {
                     name: track.name,
                     artist: artistString,
@@ -123,7 +144,25 @@ const CreatePlaylist = (props) => {
                     preview_url: track.preview_url,
                     cover: track.album.images[1].url,
                 },
-            ]);
+            ];
+
+            let playTime = 0;
+            for (let i = 0; i < arr.length; i++) {
+                console.log("track play time: ", arr[i].duration);
+                playTime += arr[i].duration;
+
+                // setNewTracklist(arr);
+            }
+
+            setNewPlaylist({
+                ...newPlaylist,
+                trackList: arr,
+                totalPlaytime: playTime,
+            });
+            // setNewPlaylist({ ...newPlaylist, totalPlaytime: playTime });
+
+            console.log("Playlist play time: ", playTime);
+
             console.log("Track to add to playlist", track);
         } else {
             console.log("This track is already in the playlist");
@@ -131,11 +170,24 @@ const CreatePlaylist = (props) => {
     };
 
     const removeFromPlaylistHandler = (trackSpotifyId) => {
+        let newPlaylistTime = 0;
         console.log("Track Id to remove: ", trackSpotifyId);
-        let updatedList = newTracklist.filter(
+        let updatedList = newPlaylist.trackList.map((track) => {
+            if (track.trackSpotifyId === trackSpotifyId) {
+                newPlaylistTime = newPlaylist.totalPlaytime - track.duration;
+            }
+        });
+
+        updatedList = newPlaylist.trackList.filter(
             (track) => track.trackSpotifyId != trackSpotifyId
         );
-        setNewTracklist(updatedList);
+        // setNewTracklist(updatedList);
+
+        setNewPlaylist({
+            ...newPlaylist,
+            trackList: updatedList,
+            totalPlaytime: newPlaylistTime,
+        });
     };
 
     const createPlaylistHandler = () => {
@@ -144,7 +196,7 @@ const CreatePlaylist = (props) => {
         createPlaylist(newPlaylist)
             .then((res) => {
                 {
-                    navigate(`/home`);
+                    navigate("/home");
                 }
             })
             .catch((err) => {
@@ -181,24 +233,10 @@ const CreatePlaylist = (props) => {
         });
     };
 
-    useEffect(() => {
-        let playTime = 0;
-        for (let i = 0; i < newTracklist.length; i++) {
-            console.log("track play time: ", newTracklist[i].duration);
-            playTime += newTracklist[i].duration;
-        }
-        console.log("Playlist play time: ", playTime);
-
-        setNewPlaylist({ ...newPlaylist, totalPlaytime: playTime });
-        setNewPlaylist({ ...newPlaylist, createdBy: "slimslim" });
-        // setNewPlaylist({ ...newPlaylist, createdBy: user.username });
-        setNewPlaylist({ ...newPlaylist, trackList: newTracklist });
-    }, [newTracklist]);
-
     return (
         <div>
-            <Nav />
-            <form onSubmit={submitHandler}>
+            <Nav loggedUser={user.username} />
+            <form className="div_form_container" onSubmit={submitHandler}>
                 <div
                     className="search_panel"
                     style={{
@@ -278,7 +316,9 @@ const CreatePlaylist = (props) => {
                             </div>
                         </div>
                         <div className="search_field_and_advanced">
-                            <label className="search_labels">Search</label>
+                            <label className="search_labels">
+                                Search field
+                            </label>
                             <div className="search_field">
                                 <input
                                     onChange={(e) =>
@@ -443,9 +483,10 @@ const CreatePlaylist = (props) => {
                                     />
                                 </div>
                             </div>
-                        </div>
-                        <div className="search_action">
                             <button>SEARCH</button>
+                        </div>
+                        <div className="player_container">
+                            <div className="audio_player">Audio Player</div>
                         </div>
                     </div>
                     <form />
@@ -646,12 +687,20 @@ const CreatePlaylist = (props) => {
                                 />
                             </div>
                         </div>
+
+                        <div className="playlist_action_container">
+                            <label className="action_labels">CREATE</label>
+                            <button
+                                className="create_button"
+                                onClick={() => createPlaylistHandler()}
+                            ></button>
+                        </div>
                         <div className="playlist_info_data">
                             <div className="track_counter">
                                 <label>#</label>
                                 <div className="track_count_display">
                                     <p className="track_count_number">
-                                        {newTracklist.length}
+                                        {newPlaylist.trackList.length}
                                     </p>
                                 </div>
 
@@ -659,7 +708,7 @@ const CreatePlaylist = (props) => {
                             </div>
                         </div>
                     </div>
-                    {newTracklist.map((track) => (
+                    {newPlaylist.trackList.map((track) => (
                         <div key={track.trackSpotifyId} className="track_div">
                             <div className="track_data">
                                 <div className="album_cover">
@@ -762,7 +811,7 @@ const CreatePlaylist = (props) => {
                                     src={greenButton}
                                     type="kick"
                                     onSwitchClick={() =>
-                                        seedHandler(track.trackSpotifyId)
+                                        seedSpotifyHandler(track.trackSpotifyId)
                                     }
                                 />
                                 {/* <button
@@ -779,9 +828,6 @@ const CreatePlaylist = (props) => {
                                         track.name // track.artists[] // */}
                         </div>
                     ))}
-                    <button onClick={() => createPlaylistHandler()}>
-                        Create Playlist
-                    </button>
                 </div>
             </div>
         </div>

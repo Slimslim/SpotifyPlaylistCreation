@@ -39,10 +39,14 @@ const login = async (req, res) => {
     // the user exists and the password matches
     const userToken = jwt.sign(
         { userId: potentialUser._id, username: potentialUser.username },
-        process.env.SECRET_KEY
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
     );
     // console.log("User Token: ", userToken);
-    res.cookie("userToken", userToken);
+    res.cookie("userToken", userToken, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+    });
     res.status(201).json(potentialUser);
 };
 

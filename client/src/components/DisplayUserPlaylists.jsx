@@ -12,6 +12,7 @@ const DisplayUserPlaylists = (props) => {
     const id = window.localStorage.getItem("UUID");
 
     useEffect(() => {
+        console.log("Get logged in username");
         getUserById(id)
             .then((res) => {
                 setUser(res.username);
@@ -19,9 +20,7 @@ const DisplayUserPlaylists = (props) => {
             .catch((err) => {
                 setErrors(err);
             });
-    }, []);
 
-    useEffect(() => {
         console.log("Searching playlists");
         getAllPlaylists()
             .then((res) => {
@@ -35,14 +34,14 @@ const DisplayUserPlaylists = (props) => {
 
     return (
         <div className="fresh-table full-color-orange m-5">
-            <table id="fresh-table" className="table">
+            <table className="table table-striped table-dark">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Nb of tracks</th>
-                        <th>Playtime</th>
-                        <th>Created By</th>
-                        <th>Likes</th>
+                        <th className="text-center">Nb of tracks</th>
+                        <th className="text-center">Playtime</th>
+                        <th className="text-center">Created By</th>
+                        <th className="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,12 +54,23 @@ const DisplayUserPlaylists = (props) => {
                                         {playlist.name}
                                     </Link>
                                 </td>
-                                <td>{playlist.trackList.length}</td>
+                                <td className="text-center">
+                                    {playlist.trackList.length}
+                                </td>
                                 <td className="text-center">
                                     {msToHMS(playlist.totalPlaytime)}
                                 </td>
-                                <td>{playlist.createdBy}</td>
-                                <td>{playlist.likes}</td>
+                                <td className="text-center">
+                                    {playlist.createdBy}
+                                </td>
+                                <td className="user_playlist_actions justify-content-center">
+                                    <button className="btn btn-light ">
+                                        Edit
+                                    </button>
+                                    <button className="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ) : null
                     )}
