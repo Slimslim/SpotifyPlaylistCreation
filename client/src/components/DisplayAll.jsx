@@ -21,34 +21,17 @@ const DisplayAll = (props) => {
             });
     }, []);
 
-    // const deleteHandler = (storeId) => {
-    //     console.log("delete triggered");
-    //     console.log(storeId);
-
-    //     deleteStoreById(storeId)
-    //         .then((res) => {
-    //             console.log(res);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-
-    //     setUpdated(true);
-
-    //     //add a filter to update state
-    // };
-
     return (
         <div className="fresh-table full-color-orange m-5">
-            <table id="fresh-table" className="table">
+            <table id="fresh-table" className="table table-striped table-dark">
                 {/* <table className="table border-2 border-dark"> */}
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Nb of tracks</th>
-                        <th>Playtime</th>
-                        <th>Created By</th>
-                        <th>Likes</th>
+                        <th className="text-center">Nb of tracks</th>
+                        <th className="text-center">Playtime</th>
+                        <th className="text-center">Created By</th>
+                        <th className="text-center">Likes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,12 +43,16 @@ const DisplayAll = (props) => {
                                     {playlist.name}
                                 </Link>
                             </td>
-                            <td>{playlist.trackList.length}</td>
+                            <td className="text-center">
+                                {playlist.trackList.length}
+                            </td>
                             <td className="text-center">
                                 {msToHMS(playlist.totalPlaytime)}
                             </td>
-                            <td>{playlist.createdBy}</td>
-                            <td>{playlist.likes}</td>
+                            <td className="text-center">
+                                {playlist.createdBy}
+                            </td>
+                            <td className="text-center">{playlist.likes}</td>
                         </tr>
                     ))}
                 </tbody>

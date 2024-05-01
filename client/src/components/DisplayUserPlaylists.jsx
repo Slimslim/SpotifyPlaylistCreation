@@ -1,26 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../context/userContext";
-import { Link, useParams } from "react-router-dom";
-import { getAllPlaylists } from "../services/PlaylistService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+    deletePlaylistById,
+    getAllPlaylists,
+} from "../services/PlaylistService";
 import { msToHMS } from "../util/Utilities";
 import { getUserById } from "../services/LoginService";
 
 const DisplayUserPlaylists = (props) => {
+    const { loggedUser } = props;
     const [playlists, setPlaylists] = useState([]);
+    const navigate = useNavigate();
     const { user, setUser } = useContext(userContext);
 
     const id = window.localStorage.getItem("UUID");
 
     useEffect(() => {
-        console.log("Get logged in username");
-        getUserById(id)
-            .then((res) => {
-                setUser(res.username);
-            })
-            .catch((err) => {
-                setErrors(err);
-            });
-
         console.log("Searching playlists");
         getAllPlaylists()
             .then((res) => {
@@ -31,6 +27,22 @@ const DisplayUserPlaylists = (props) => {
                 console.log(err);
             });
     }, []);
+
+    const deleteHandler = (playlistId) => {
+        deletePlaylistById(playlistId)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        setPlaylists(playlists.filter((track) => track._id != playlistId));
+    };
+
+    const editHandler = (playlistId) => {
+        navigate(`/update/${playlistId}`);
+    };
 
     return (
         <div className="fresh-table full-color-orange m-5">
@@ -46,7 +58,7 @@ const DisplayUserPlaylists = (props) => {
                 </thead>
                 <tbody>
                     {playlists.map((playlist) =>
-                        playlist.createdBy === user ? (
+                        playlist.createdBy === loggedUser ? (
                             <tr key={playlist._id}>
                                 <td>
                                     {" "}
@@ -64,10 +76,20 @@ const DisplayUserPlaylists = (props) => {
                                     {playlist.createdBy}
                                 </td>
                                 <td className="user_playlist_actions justify-content-center">
-                                    <button className="btn btn-light ">
+                                    <button
+                                        onClick={() =>
+                                            editHandler(playlist._id)
+                                        }
+                                        className="btn btn-light "
+                                    >
                                         Edit
                                     </button>
-                                    <button className="btn btn-danger">
+                                    <button
+                                        onClick={() =>
+                                            deleteHandler(playlist._id)
+                                        }
+                                        className="btn btn-danger"
+                                    >
                                         Delete
                                     </button>
                                 </td>

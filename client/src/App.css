@@ -19,11 +19,12 @@ p {
 }
 
 /* nav bar */
-.nav-bar_header {
+.nav_bar_header {
     background-color: rgb(20, 28, 37);
     color: whitesmoke;
     display: flex;
     justify-content: space-between;
+    padding: 5px 10px;
 }
 
 .menu_item {
@@ -35,13 +36,28 @@ p {
     padding: 2px;
     gap: 5px;
 }
+
+.last_menu_item {
+    display: flex;
+    font-weight: 100;
+    font-size: small;
+    height: fit-content;
+    padding: 2px;
+    gap: 5px;
+}
 .navigation_bar {
+    align-items: center;
     height: 50px;
     display: flex;
     justify-content: flex-end;
 }
 
 /* login page */
+
+.error_message_login {
+    background-color: rgba(0, 0, 0, 0.587);
+    margin-top: 20px;
+}
 .user_login_page {
     display: flex;
     background-image: url(../src/assets/images/TPTL_Home_page.png);
@@ -61,6 +77,10 @@ p {
     padding: 20px;
     height: 200px;
     gap: 10px;
+}
+
+.error_form {
+    border: red 3px solid;
 }
 
 .login_labels {
@@ -104,6 +124,8 @@ form {
     font-size: x-large;
 }
 
+/* SEARCH CONTAINER */
+
 .search_container {
     display: flex;
     padding: 30px 60px 60px 60px;
@@ -111,6 +133,36 @@ form {
 .search_labels {
     color: whitesmoke;
 }
+
+.search_field_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 5px;
+}
+
+.digital_display_container {
+    display: flex;
+}
+
+.lcd_screen {
+    font-family: "Digital";
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    height: 40px;
+    width: 200px;
+    padding: 0px 15px;
+    background-color: black;
+    color: rgba(168, 4, 4, 0.672);
+}
+
+.top_search_container {
+    align-items: end;
+    display: flex;
+    gap: 20px;
+}
+
 .knob_filters {
     display: flex;
     flex-direction: column;
@@ -235,9 +287,17 @@ form {
 
 /* Playlist columns */
 
+.tracklist_width {
+    display: flex;
+    width: 540px;
+    margin: auto;
+    flex-direction: column;
+}
+
 .div_form_container {
     width: 1100px;
     margin: auto;
+    padding: 10px 0px;
 }
 
 .div_playlists_container {
@@ -366,12 +426,12 @@ form {
 }
 
 .login_container {
-    margin: 33vw 38vw 0px 36vw;
+    margin: 39vw 38vw 0px 36vw;
     border-radius: 5px;
     border: white solid 1px;
     background-color: black;
 
-    height: 150px;
+    height: 176px;
 }
 
 .login_button {

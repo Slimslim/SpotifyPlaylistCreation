@@ -6,7 +6,9 @@ async function createPlaylist(req, res) {
         //201 for successful posts requests
         return res.status(201).json(playlist);
     } catch (err) {
+        console.log(err);
         return res.status(500).json(err);
+        // throw err.response.data.errors;
     }
 }
 

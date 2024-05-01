@@ -39,7 +39,9 @@ const HomePage = (props) => {
     return (
         <div>
             <Nav loggedUser={user.username} />
-            <h2 className="text-center mt-5">The Most Liked Playlists</h2>
+            <h2 className="text-center mt-5 text-white">
+                The Most Liked Playlists
+            </h2>
             <DisplayAll />
             <button onClick={searchHandler}></button>
         </div>

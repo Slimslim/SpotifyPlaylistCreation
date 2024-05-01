@@ -35,7 +35,7 @@ const Nav = (props) => {
             });
     };
     return (
-        <header className="nav-bar_header">
+        <header className="nav_bar_header">
             <h1>The Playlist Track Lab</h1>
             <nav className="navigation_bar">
                 <li className="menu_item">
@@ -65,7 +65,7 @@ const Nav = (props) => {
                         <u>logout</u>
                     </Link>
                 </li>
-                <li className="menu_item">
+                <li className="last_menu_item">
                     <a
                         className="nav-link  px-1 disabled"
                         href="#"

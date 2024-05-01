@@ -1,0 +1,6 @@
+/* DS-DIGITAL FONT */
+
+@font-face {
+    font-family: "Digital";
+    src: url("./fonts/ds-digital/DigitalPlaySt-dGB6.ttf") format("truetype");
+}

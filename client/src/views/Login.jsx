@@ -9,7 +9,10 @@ import { userContext } from "../context/userContext";
 const Login = (props) => {
     const { user, setUser, storeIdInLocalStorage } = useContext(userContext);
     const navigate = useNavigate();
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState({
+        email: "",
+        password: "",
+    });
     const [errors, setErrors] = useState({});
 
     const submnitHandler = (e) => {
@@ -17,9 +20,9 @@ const Login = (props) => {
 
         login(userInfo)
             .then((res) => {
-                console.log("Login user data: ", res[0]);
-                setUser(res[0]);
-                storeIdInLocalStorage(res[0]._id);
+                console.log("Login user data: ", res);
+                setUser(res);
+                storeIdInLocalStorage(res._id);
                 //redirect to '/SpotifyLogin' page to request login to spotify
                 navigate("/SpotifyLogin");
             })
@@ -30,7 +33,14 @@ const Login = (props) => {
     };
     return (
         <div className="user_login_page">
-            <form onSubmit={submnitHandler} className="user_login_container">
+            <form
+                onSubmit={submnitHandler}
+                className={
+                    errors.message
+                        ? "user_login_container  error_form"
+                        : "user_login_container"
+                }
+            >
                 <div className="email_container">
                     <label className="login_labels">Email</label>
                     <input
@@ -66,6 +76,12 @@ const Login = (props) => {
                     Don't have an account yet ?
                     <Link to={"/register"}>Sing up here</Link>
                 </p>
+                <div className="error_message_login">
+                    <p className="text-danger text-center">
+                        {errors ? errors.message : null}
+                    </p>
+                    {/* {errors ? <p className="text-danger">{errors}</p> : null} */}
+                </div>
             </form>
         </div>
     );

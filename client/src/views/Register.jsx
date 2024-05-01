@@ -18,7 +18,7 @@ const Register = (props) => {
             .then((res) => {
                 setUser(res);
                 console.log("Registered!!!");
-                navigate("/SpotifyLogin");
+                navigate("/");
             })
             .catch((err) => {
                 console.log(err);
@@ -27,16 +27,21 @@ const Register = (props) => {
     };
     return (
         <div>
-            <h1 className="w-50 mx-auto">Register</h1>
+            <h1 className="w-50 mx-auto text-white">Register</h1>
 
             <form
                 onSubmit={submnitHandler}
                 className="w-50 mx-auto p-3 border border-2 border-dark"
             >
                 <div className="form-group mb-2">
-                    <div className="d-flex gap-3">
+                    <div className="d-flex gap-3 text-white">
                         <label>Username</label>
                         <input
+                            className={
+                                errors.username
+                                    ? "form-control border-2 border-danger"
+                                    : "form-control"
+                            }
                             type="username"
                             name="username"
                             onChange={(e) =>
@@ -47,11 +52,19 @@ const Register = (props) => {
                             }
                         />
                     </div>
+                    {errors.username ? (
+                        <p className="text-danger">{errors.username.message}</p>
+                    ) : null}
                 </div>
-                <div className="form-group mb-2">
+                <div className="form-group mb-2 text-white">
                     <div className="d-flex gap-3">
                         <label>Email</label>
                         <input
+                            className={
+                                errors.email
+                                    ? "form-control border-2 border-danger"
+                                    : "form-control"
+                            }
                             type="email"
                             name="email"
                             onChange={(e) =>
@@ -62,11 +75,19 @@ const Register = (props) => {
                             }
                         />
                     </div>
+                    {errors.email ? (
+                        <p className="text-danger">{errors.email.message}</p>
+                    ) : null}
                 </div>
-                <div className="form-group mb-2">
+                <div className="form-group mb-2 text-white">
                     <div className="d-flex gap-3">
                         <label>Password</label>
                         <input
+                            className={
+                                errors.password
+                                    ? "form-control border-2 border-danger"
+                                    : "form-control"
+                            }
                             type="password"
                             name="password"
                             onChange={(e) =>
@@ -77,11 +98,19 @@ const Register = (props) => {
                             }
                         />
                     </div>
+                    {errors.password ? (
+                        <p className="text-danger">{errors.password.message}</p>
+                    ) : null}
                 </div>
-                <div className="form-group mb-2">
+                <div className="form-group mb-2 text-white">
                     <div className="d-flex gap-3">
                         <label>Confirm Password</label>
                         <input
+                            className={
+                                errors.confirmPassword
+                                    ? "form-control border-2 border-danger"
+                                    : "form-control"
+                            }
                             type="password"
                             name="password"
                             onChange={(e) =>
@@ -92,6 +121,11 @@ const Register = (props) => {
                             }
                         />
                     </div>
+                    {errors.confirmPassword ? (
+                        <p className="text-danger">
+                            {errors.confirmPassword.message}
+                        </p>
+                    ) : null}
                 </div>
                 <button className="btn btn-light border border-dark">
                     Sign up

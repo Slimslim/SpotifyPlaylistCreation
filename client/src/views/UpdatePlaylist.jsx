@@ -1,7 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userContext } from "../context/userContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createPlaylist, getPlaylistById } from "../services/PlaylistService";
+import {
+    createPlaylist,
+    getPlaylistById,
+    updatePlaylistById,
+} from "../services/PlaylistService";
 import { getUserById } from "../services/LoginService";
 import Nav from "../components/Nav";
 
@@ -22,8 +26,9 @@ import {
     WebAudioParam,
 } from "webaudio-controls-react-typescript";
 
-const CreatePlaylist = (props) => {
+const UpdatePlaylist = (props) => {
     const navigate = useNavigate();
+    const { playlistId } = useParams();
 
     const { user, setUser } = useContext(userContext);
     const [errors, setErrors] = useState({});
@@ -40,7 +45,7 @@ const CreatePlaylist = (props) => {
     // List of the tracks to be displayed ==> Date pulled from track ids
     const [newPlaylist, setNewPlaylist] = useState({
         name: "",
-        createdBy: "slimslim",
+        createdBy: "",
         likes: 0,
         privacySetting: "public",
         totalPlaytime: 1,
@@ -55,14 +60,19 @@ const CreatePlaylist = (props) => {
         getUserById(id)
             .then((res) => {
                 setUser(res);
-                console.log(res);
-                setNewPlaylist({ ...newPlaylist, createdBy: res.username });
             })
             .catch((err) => {
                 setErrors(err);
             });
 
-        // setNewPlaylist({ ...newPlaylist, createdBy: user.username });
+        getPlaylistById(playlistId)
+            .then((res) => {
+                console.log("Playlist to update: ", res);
+                setNewPlaylist(res);
+            })
+            .catch((err) => {
+                setErrors(err);
+            });
     }, []);
 
     const submitHandler = (e) => {
@@ -119,8 +129,7 @@ const CreatePlaylist = (props) => {
         console.log("Adding song to playlist. ID: ", track);
 
         if (
-            /// newTracklist is not used anymore!!!
-            !newPlaylist.trackList.find(
+            !newTracklist.find(
                 (playlist_track) => playlist_track.trackSpotifyId === track.id
             )
         ) {
@@ -191,10 +200,10 @@ const CreatePlaylist = (props) => {
         });
     };
 
-    const createPlaylistHandler = () => {
-        console.log("CREATE PLAYLIST");
+    const updatePlaylistHandler = () => {
+        console.log("UPDATE PLAYLIST");
 
-        createPlaylist(newPlaylist)
+        updatePlaylistById(playlistId, newPlaylist)
             .then((res) => {
                 {
                     navigate("/home");
@@ -208,7 +217,7 @@ const CreatePlaylist = (props) => {
 
     const seedHandler = (trackSpotifyId) => {
         console.log("Seeding track with id: ", trackSpotifyId);
-        newPlaylist.trackList.map((track) => {
+        newTracklist.map((track) => {
             if (track.trackSpotifyId === trackSpotifyId) {
                 setDance(track.danceability);
                 setEnergy(track.energy);
@@ -247,7 +256,7 @@ const CreatePlaylist = (props) => {
                     }}
                 >
                     <div className="search_spacer_for_logo">
-                        <div className="logo_box">CREATE YOUR OWN PLAYLIST</div>
+                        <div className="logo_box">UPDATE YOUR PLAYLIST</div>
                     </div>
                     <div className="search_container">
                         <div className="search_type_selection">
@@ -317,33 +326,19 @@ const CreatePlaylist = (props) => {
                             </div>
                         </div>
                         <div className="search_field_and_advanced">
-                            <div className="top_search_container">
-                                <div className="search_field_container">
-                                    <label className="search_labels">
-                                        Search field
-                                    </label>
-                                    <div className="search_field">
-                                        <input
-                                            onChange={(e) =>
-                                                setTrackSearch(e.target.value)
-                                            }
-                                            type="text"
-                                            name="songname"
-                                            value={trackSearch}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="digital_display_container">
-                                    <div className="lcd_screen">
-                                        <p>
-                                            {errors.searchField
-                                                ? errors.searchField.message
-                                                : null}
-                                        </p>
-                                    </div>
-                                </div>
+                            <label className="search_labels">
+                                Search field
+                            </label>
+                            <div className="search_field">
+                                <input
+                                    onChange={(e) =>
+                                        setTrackSearch(e.target.value)
+                                    }
+                                    type="text"
+                                    name="songname"
+                                    value={trackSearch}
+                                />
                             </div>
-
                             <div className="advanced_filters">
                                 <div className="knob_filters">
                                     <label className="search_labels">
@@ -698,16 +693,17 @@ const CreatePlaylist = (props) => {
                                             name: e.target.value,
                                         })
                                     }
+                                    value={newPlaylist.name}
                                     type="text"
                                 />
                             </div>
                         </div>
 
                         <div className="playlist_action_container">
-                            <label className="action_labels">CREATE</label>
+                            <label className="action_labels">Update</label>
                             <button
                                 className="create_button"
-                                onClick={() => createPlaylistHandler()}
+                                onClick={() => updatePlaylistHandler()}
                             ></button>
                         </div>
                         <div className="playlist_info_data">
@@ -849,4 +845,4 @@ const CreatePlaylist = (props) => {
     );
 };
 
-export default CreatePlaylist;
+export default UpdatePlaylist;

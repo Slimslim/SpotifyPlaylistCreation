@@ -1,4 +1,6 @@
 import "./App.css";
+import "./styles/Font.css";
+
 import { Routes, Route } from "react-router-dom";
 import Login from "./views/Login";
 import SpotifyLogin from "./views/SpotifyLogin";
@@ -7,6 +9,9 @@ import HomePage from "./views/HomePage";
 import PlaylistDetails from "./views/PlaylistDetails";
 import CreatePlaylist from "./views/CreatePlaylist";
 import MyPlaylists from "./views/MyPlaylists";
+import UpdatePlaylist from "./views/UpdatePlaylist";
+
+// fonts
 
 function App() {
     return (
@@ -19,6 +24,10 @@ function App() {
                 <Route path="/playlist/:id" element={<PlaylistDetails />} />
                 <Route path="/create" element={<CreatePlaylist />} />
                 <Route path="/myplaylists" element={<MyPlaylists />} />
+                <Route
+                    path="/update/:playlistId"
+                    element={<UpdatePlaylist />}
+                />
             </Routes>
         </>
     );

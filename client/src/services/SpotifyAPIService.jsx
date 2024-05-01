@@ -3,6 +3,9 @@ import queryString from "query-string";
 import { Buffer } from "buffer";
 import { refreshToken } from "./SpotifyAuthService";
 
+// Define errors object
+const errors = {};
+
 // create base URL
 const http = axios.create({
     baseURL: import.meta.env.VITE_SPOTIFY_API_URL,
@@ -14,6 +17,15 @@ async function getRecommendation(artistSeedName, dance, energy, instru, tempo) {
     // let query = encodeURIComponent(artistId);
     let searchResult = {};
     let artistId = "";
+
+    if (!artistSeedName) {
+        errors.searchField = {
+            name: "ValidatorError",
+            message: "Artist name required for recommendations",
+            kind: "required",
+        };
+        throw errors;
+    }
 
     console.log(
         "getRecommendation fct started. Searching tracks of: ",
@@ -69,6 +81,15 @@ async function getArtistTopTracks(searchedArtistName) {
     let searchResult = {};
     let artistId = "";
 
+    if (!searchedArtistName) {
+        errors.searchField = {
+            name: "ValidatorError",
+            message: "Artist name required",
+            kind: "required",
+        };
+        throw errors;
+    }
+
     console.log(
         "getArtistTopTracks fct started. Searching tracks of: ",
         searchedArtistName
@@ -118,6 +139,15 @@ async function getTracks(searchInput, searchType) {
     let trackIdList = "";
     let trackAudioFeatures = [];
 
+    if (!searchInput) {
+        errors.searchField = {
+            name: "ValidatorError",
+            message: `Track name required`,
+            kind: "required",
+        };
+        throw errors;
+    }
+
     // console.log("track to search for: ", query);
     const url =
         `https://api.spotify.com/v1/search?q=` +
@@ -138,23 +168,6 @@ async function getTracks(searchInput, searchType) {
         //Store response
         console.log("getTracks fct Response:", response.data);
         searchResult = response.data.tracks.items;
-
-        // ///Get tracks Audio features (comes back as an object)
-        // trackIdList = extractTrackId(searchResult);
-        // console.log("Response from extractTrackID:", trackIdList);
-        // trackAudioFeatures = await getTracksAudioFeatures(trackIdList);
-        // console.log(
-        //     "Response from extractTrackAudioFeatures:",
-        //     trackAudioFeatures
-        // );
-        // // input audio features in track list data
-        // searchResult.map((track, index) => {
-        //     // add new 'audio_features' field to each tracks
-        //     track.audio_features = trackAudioFeatures[index];
-        // });
-
-        // // return new object with tracks info and features
-        // console.log("Consolidated data from GetTracks fct: ", searchResult);
 
         return await addTrackAudioFeatures(searchResult);
     } catch (error) {
@@ -177,6 +190,15 @@ async function getAlbumTracks(searchedAlbumName) {
     let searchResult = {};
     let albumId = "";
     let albumData = {};
+
+    if (!searchedAlbumName) {
+        errors.searchField = {
+            name: "ValidatorError",
+            message: `Album name required`,
+            kind: "required",
+        };
+        throw errors;
+    }
 
     console.log(
         "getArtistTopTracks fct started. Searching tracks of: ",

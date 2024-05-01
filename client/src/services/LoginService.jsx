@@ -11,7 +11,8 @@ async function login(user) {
         .post("/login", user, { withCredentials: true })
         .then((response) => response.data)
         .catch((err) => {
-            throw err.response.data.errors;
+            console.log("error in LoginService: ", err);
+            throw err.response.data;
         });
 }
 

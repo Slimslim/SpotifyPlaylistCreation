@@ -24,14 +24,16 @@ const login = async (req, res) => {
     // check if user exists
     // console.log("Arguemnt passed in UserController:", req.body);
     const { email, password } = req.body;
-    const potentialUser = await User.find({ email: email });
+    // console.log("body: ", req.body);
+    const potentialUser = await User.findOne({ email: email });
+    // console.log("Potential user: ", potentialUser);
     if (!potentialUser) {
         return res.status(404).json({ message: "user not found" });
     }
     // there is a user with this email
     const isPasswordCorrect = await bcrypt.compare(
         password,
-        potentialUser[0].password
+        potentialUser.password
     );
     if (!isPasswordCorrect) {
         return res.status(404).json({ message: "Invalid credentials" });
