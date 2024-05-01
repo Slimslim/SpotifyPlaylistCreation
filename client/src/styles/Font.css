@@ -2,5 +2,29 @@
 
 @font-face {
     font-family: "Digital";
-    src: url("./fonts/ds-digital/DigitalPlaySt-dGB6.ttf") format("truetype");
+    src: url("../fonts/ds-digital/DigitalPlaySt-dGB6.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../src/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../src/fonts/Roboto/Roboto-Thin.ttf") format("truetype");
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../src/fonts/Roboto/Roboto-ThinItalic.ttf") format("truetype");
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../fonts/Roboto/Roboto-Bold.ttf") format("truetype");
+    font-weight: bold;
 }

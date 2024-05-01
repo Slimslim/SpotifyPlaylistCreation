@@ -247,7 +247,9 @@ const CreatePlaylist = (props) => {
                     }}
                 >
                     <div className="search_spacer_for_logo">
-                        <div className="logo_box">CREATE YOUR OWN PLAYLIST</div>
+                        <div className="logo_box robot_font">
+                            create your own playlist
+                        </div>
                     </div>
                     <div className="search_container">
                         <div className="search_type_selection">
@@ -320,7 +322,7 @@ const CreatePlaylist = (props) => {
                             <div className="top_search_container">
                                 <div className="search_field_container">
                                     <label className="search_labels">
-                                        Search field
+                                        search field
                                     </label>
                                     <div className="search_field">
                                         <input
@@ -335,7 +337,7 @@ const CreatePlaylist = (props) => {
                                 </div>
                                 <div className="digital_display_container">
                                     <div className="lcd_screen">
-                                        <p>
+                                        <p className="digital_font">
                                             {errors.searchField
                                                 ? errors.searchField.message
                                                 : null}
@@ -347,7 +349,7 @@ const CreatePlaylist = (props) => {
                             <div className="advanced_filters">
                                 <div className="knob_filters">
                                     <label className="search_labels">
-                                        Danceability
+                                        danceability
                                     </label>
                                     <WebAudioKnob
                                         id="dance"
@@ -385,7 +387,7 @@ const CreatePlaylist = (props) => {
                                 </div>
                                 <div className="knob_filters">
                                     <label className="search_labels">
-                                        Energy
+                                        energy
                                     </label>
                                     <WebAudioKnob
                                         id="energy"
@@ -423,7 +425,7 @@ const CreatePlaylist = (props) => {
                                 </div>
                                 <div className="knob_filters">
                                     <label className="search_labels">
-                                        Instrumentalness
+                                        instrumentalness
                                     </label>
                                     <WebAudioKnob
                                         id="instru"
@@ -461,7 +463,7 @@ const CreatePlaylist = (props) => {
                                 </div>
                                 <div className="knob_filters">
                                     <label className="search_labels">
-                                        Tempo
+                                        tempo
                                     </label>
                                     <WebAudioKnob
                                         id="tempo"
@@ -532,7 +534,7 @@ const CreatePlaylist = (props) => {
                                     <div className="track_features_left_values">
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                INSTRU.
+                                                instru.
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(
@@ -543,7 +545,7 @@ const CreatePlaylist = (props) => {
                                         </div>
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                DANCE.
+                                                dance.
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(
@@ -556,7 +558,7 @@ const CreatePlaylist = (props) => {
                                     <div className="track_features_right_values">
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                ENERGY
+                                                energy
                                             </p>
                                             <WebAudioParam
                                                 outline={"white"}
@@ -568,7 +570,7 @@ const CreatePlaylist = (props) => {
                                         </div>
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                Tempo
+                                                tempo
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(
@@ -632,64 +634,20 @@ const CreatePlaylist = (props) => {
                                         track.name // track.artists[] // */}
                         </div>
                     ))}
-                    {
-                        // spotifyTrackList.map((track) => (
-                        //     <div key={track.id} className="track_div">
-                        //         <div className="album_cover">
-                        //             {/* {console.log(track.album.images[0].url)} */}
-                        //             <img
-                        //                 className="cover_image"
-                        //                 src={track.album.images[1].url}
-                        //                 alt=""
-                        //             />
-                        //         </div>
-                        //         <div className="track_information">
-                        //             <p className="track_name">{track.name}</p>
-                        //             <p className="artists_div">
-                        //                 {track.artists.map(
-                        //                     (artist) => `${artist.name}, `
-                        //                 )}
-                        //             </p>
-                        //             <div className="extra_data">
-                        //                 <p>BPM : {track.audio_features.tempo}</p>
-                        //                 <p>
-                        //                     Danceability:{" "}
-                        //                     {track.audio_features.danceability}
-                        //                 </p>
-                        //                 <p>Energy: {track.audio_features.energy}</p>
-                        //                 <p>
-                        //                     instrumentalness:{" "}
-                        //                     {track.audio_features.instrumentalness}
-                        //                 </p>
-                        //             </div>
-                        //         </div>
-                        //         <div className="track_actions">
-                        //             {/* {track.preview_url ? (
-                        //                     <audio
-                        //                         className="audio_player"
-                        //                         controls
-                        //                         src={track.preview_url}
-                        //                     ></audio>
-                        //                 ) : null} */}
-                        //             <button
-                        //                 onClick={() => addToPlaylistHandler(track)}
-                        //                 className=" add_button bi bi-plus"
-                        //                 type="button"
-                        //             ></button>
-                        //         </div>
-                        //         {/* // track.id // track.album.images[1] //
-                        //                 track.name // track.artists[] // */}
-                        //     </div>
-                        // ))
-                    }
                 </div>
                 <div className="create_list_div">
                     <div className="playlist_info_container">
                         <div className="playlist_title_container">
-                            <p className="playlist_title_label">
+                            <p className="playlist_title_label roboto_font">
                                 Playlist title
                             </p>
-                            <div className="title_tape">
+                            <div
+                                className={
+                                    errors.name
+                                        ? "red_title_tape"
+                                        : "title_tape"
+                                }
+                            >
                                 <input
                                     className="title_field shantell-sans-handfont"
                                     onChange={(e) =>
@@ -714,7 +672,7 @@ const CreatePlaylist = (props) => {
                             <div className="track_counter">
                                 <label>#</label>
                                 <div className="track_count_display">
-                                    <p className="track_count_number">
+                                    <p className="track_count_number digital_font">
                                         {newPlaylist.trackList.length}
                                     </p>
                                 </div>
@@ -744,7 +702,7 @@ const CreatePlaylist = (props) => {
                                     <div className="track_features_left_values">
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                INSTRU.
+                                                instru.
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(
@@ -754,7 +712,7 @@ const CreatePlaylist = (props) => {
                                         </div>
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                DANCE.
+                                                dance.
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(
@@ -766,7 +724,7 @@ const CreatePlaylist = (props) => {
                                     <div className="track_features_right_values">
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                ENERGY
+                                                energy
                                             </p>
                                             <WebAudioParam
                                                 outline={"white"}
@@ -777,7 +735,7 @@ const CreatePlaylist = (props) => {
                                         </div>
                                         <div className="audio_feature">
                                             <p className="action_labels">
-                                                Tempo
+                                                tempo
                                             </p>
                                             <WebAudioParam
                                                 value={Math.round(track.tempo)}

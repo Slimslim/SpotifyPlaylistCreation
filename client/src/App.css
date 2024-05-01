@@ -145,8 +145,16 @@ form {
     display: flex;
 }
 
+.roboto_font {
+    font-family: Roboto;
+}
+
+.digital_font {
+    font-family: Digital;
+    font-size: x-small;
+}
+
 .lcd_screen {
-    font-family: "Digital";
     display: flex;
     align-items: center;
     border-radius: 10px;
@@ -175,6 +183,7 @@ form {
 }
 .knob_filters > .search_labels,
 .slider_filters > .search_labels {
+    font-family: Roboto;
     font-size: 0.5rem;
 }
 
@@ -246,6 +255,7 @@ form {
     gap: 5px;
 }
 .track_count_display {
+    border-radius: 10px;
     background-color: black;
     color: red;
     height: 30px;
@@ -254,11 +264,22 @@ form {
     padding: 0px;
 }
 .track_count_number {
-    padding: 0px;
+    font-size: large;
+    padding-top: 2px;
+    padding-left: 2px;
 }
 
 .title_tape {
     background-image: url("./assets/images/masking_tape.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 90px;
+    width: 300px;
+    margin: 0px 20px;
+}
+
+.red_title_tape {
+    background-image: url("./assets/images/red_masking_tape.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 90px;
@@ -387,6 +408,7 @@ form {
 }
 
 .action_labels {
+    font-family: Roboto;
     font-size: x-small;
     font-weight: bold;
 }
