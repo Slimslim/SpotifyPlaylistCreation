@@ -68,6 +68,9 @@ const CreatePlaylist = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
+        // reset error to ""
+        setErrors({});
+
         if (searchType === "track") {
             // Query Spotify API to get track from search value
             getTracks(trackSearch, searchType)

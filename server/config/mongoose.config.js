@@ -12,13 +12,13 @@ async function dbConnect() {
             "Pinged your deployment. You successfully connected to login_reg!"
         );
 
-        // connection to the playlist database
-        await connect(MONGODB_URI, {
-            dbName: "playlistsDB",
-        });
-        console.log(
-            "Pinged your deployment. You successfully connected to playlistsDB!"
-        );
+        // // connection to the playlist database
+        // await connect(MONGODB_URI, {
+        //     dbName: "playlistsDB",
+        // });
+        // console.log(
+        //     "Pinged your deployment. You successfully connected to playlistsDB!"
+        // );
     } catch (error) {
         console.log(error);
         throw error;
